@@ -24,19 +24,94 @@
     <script src="javascript/jquery.ba-hashchange.min.js"></script>
     <script src="javascript/marked.min.js"></script>
 
-    <script>
-        // Load the content of the pages/ into the #page-content div
-        function loadtocontent(html) {
+    <script>      
+
+        // Load the content of the md into the #page-content div
+        function loadmdfile(mdname) {
             scrolltoTop();
             $('#page-content').fadeOut(200, function () {
                 $('#loader').empty();
                 $('#loader').append("<div id='loading'>LOADING...</div>");
-                jQuery.get(html, function(data) {
+                jQuery.get(mdname, function(rawmd) {
                     $('#page-content').empty();
-                    var htmlContent = marked(data);
                     $('#loader').empty();
-                    $('#page-content').append(htmlContent);
+                    $('#page-content').append(marked(rawmd));
                     $('#page-content').fadeIn(300);
+                });
+            });
+        }
+
+        // Load the list of all the tags of the repo
+        function loadversionslist() {
+            scrolltoTop();
+            $('#page-content').fadeOut(200, function () {
+                $('#loader').empty();
+                $('#loader').append("<div id='loading'>LOADING...</div>");
+
+                $.getJSON("https://api.github.com/repos/jcaillon/3P/tags").done(function (tags) {
+
+                    var htmlContent = "# List of all the releases #\n\n";
+
+                    if (tags.length > 0) {
+                        for (var i = 0, n = tags.length; i < n; i++) {
+                            htmlContent += "- [" + tags[i].name + "](#/version_" + tags[i].name + "_" + tags[i].commit.sha + ")\n";
+                        }
+                    }
+
+                    htmlContent += "\n\n*Since the updater of 3P is using the github API, i have to keep the list of releases clean on github otherwise the json to query the latest releases is huge. So this is actually a list of the tags and the old release comments are kept as comments of the commits related to those tags.*";
+
+                    $('#page-content').empty();
+                    $('#loader').empty();
+                    $('#page-content').append(marked(htmlContent));
+                    $('#page-content').fadeIn(300);
+                });
+            });
+        }
+        
+        // Load the comments of a particular tag (release)
+        function loadversion(version) {
+            if (version.indexOf("_") < 0) {
+                loadversionslist();
+                return;
+            }
+            var sha = version.substring(version.indexOf("_") + 1);
+            version = version.substring(0, version.indexOf("_"));
+
+            scrolltoTop();
+            $('#page-content').fadeOut(200, function () {
+                $('#loader').empty();
+                $('#loader').append("<div id='loading'>LOADING...</div>");
+
+                // find a md with the version tag name
+                jQuery.get("md-versions/" + version + ".md", function(rawmd) {
+                    if (rawmd != null && rawmd.length > 0) {
+                        $('#page-content').empty();
+                        $('#loader').empty();
+                        $('#page-content').append(marked(rawmd));
+                        $('#page-content').fadeIn(300);
+                    } else {
+                        // find the 1st comment of the commit corresponding to the release tag
+                        $.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
+                            var mdcontent = "# " + version + " #\n\n";
+                            if (comments.length > 0) {
+                                mdcontent += comments[0].body;
+                                $('#page-content').empty();
+                                $('#loader').empty();
+                                $('#page-content').append(marked(mdcontent));
+                                $('#page-content').fadeIn(300);
+                            } else {
+                                // find the release body
+                                $.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
+                                    mdcontent += "## " + release.name + " ##\n\n";
+                                    mdcontent += release.body;
+                                    $('#page-content').empty();
+                                    $('#loader').empty();
+                                    $('#page-content').append(marked(mdcontent));
+                                    $('#page-content').fadeIn(300);
+                                });
+                            }                
+                        });
+                    }
                 });
             });
         }
@@ -72,11 +147,20 @@
                 var hash = location.hash;
                 hash = hash.replace( /^#/, '' );
 
-                if (hash.indexOf("/") == 0) {
-                    loadtocontent("md" + hash + ".md");
-                } else if (location.hash.length == 0) {
+                 if (location.hash.length == 0) {
                     /* load default page function */
-                    loadtocontent("md/home.md");
+                    loadmdfile("md/home.md");
+                } else if (hash.indexOf("/") == 0) {
+                    if (hash.includes("/version")) {
+                        if (hash.indexOf("_") > 0) {
+                            var version = hash.substring(hash.indexOf("_") + 1);
+                            loadversion(version);
+                        } else {
+                            loadversionslist();
+                        }
+                    } else {
+                        loadmdfile("md" + hash + ".md");
+                    }
                 }
 
                 // add the class 'selectedlink' to the page link, linking to the current page
@@ -84,7 +168,6 @@
                     var that = $(this);
                     that[ that.attr( 'href' ) === location.hash ? 'addClass' : 'removeClass' ]( 'selectedlink' );
                 });
-
             })
 
             // Since the event is only triggered when the hash changes, we need to trigger
@@ -166,7 +249,8 @@
         </div>
         <a href="https://github.com/jcaillon/3P" class="button">
             <small>View project on</small>
-            GitHub</a>
+            GitHub
+        </a>
     </div>
 
 </header>
@@ -187,7 +271,6 @@
                 <li><a href="#/home">Home page</a></li>
                 <li><a href="#/installation">Installation</a></li>
                 <li><a href="#/getting-started">Getting started</a></li>
-                <li><a href="#/thanks">Thanks</a></li>
                 <li><a href="#/set-environment">Set an environment</a></li>
                 <li><a href="#/autocompletion">Progress Autocompletion</a></li>
                 <li><a href="#/alternative-autocompletion">Npp autocompletion</a></li>
@@ -196,7 +279,9 @@
                 <li><a href="#/tooltips">Tooltips</a></li>
                 <li><a href="#/custom-themes">Create and modify themes</a></li>
                 <li><a href="#/deployment">Compile and deploy</a></li>
-				<li><a href="#/deployment-rules">Deployment rules</a></li>
+                <li><a href="#/deployment-rules">Deployment rules</a></li>
+                <li><a href="#/thanks">Thanks</a></li>
+				<li><a href="#/versions">List of the versions</a></li>
             </ul>
 
 
