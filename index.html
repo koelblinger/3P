@@ -76,15 +76,17 @@
             }
             var sha = version.substring(version.indexOf("_") + 1);
             version = version.substring(0, version.indexOf("_"));
+            var mdcontent = "# " + version + " #\n\n";
 
             scrolltoTop();
             $('#page-content').fadeOut(200, function () {
                 $('#loader').empty();
                 $('#loader').append("<div id='loading'>LOADING...</div>");
-
+                            
                 // find a md with the version tag name
                 jQuery.get("md-versions/" + version + ".md", function(rawmd) {
                     if (rawmd != null && rawmd.length > 0) {
+                        mdcontent += rawmd;
                         $('#page-content').empty();
                         $('#loader').empty();
                         $('#page-content').append(marked(rawmd));
@@ -92,7 +94,6 @@
                     } else {
                         // find the 1st comment of the commit corresponding to the release tag
                         $.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
-                            var mdcontent = "# " + version + " #\n\n";
                             if (comments.length > 0) {
                                 mdcontent += comments[0].body;
                                 $('#page-content').empty();
