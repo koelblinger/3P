@@ -4,6 +4,8 @@
 
 Obviously, I would like to thanks [Don Ho](https://notepad-plus-plus.org/contributors/author.html) and the [community](https://notepad-plus-plus.org/community/) for the awesome tool that is [Notepad++](https://notepad-plus-plus.org/)!
 
+Huge thank you to [Jetbrains](https://www.jetbrains.com/) who supports this software by providing me a free resharper license <3 
+
 I would also like to credit the following websites / persons for their useful and inspiring work:
 
 * Jacob Slusser, [for his generic gap buffer class](http://www.codeproject.com/Articles/20910/Generic-Gap-Buffer) and for [ScintillaNET](https://github.com/jacobslusser/ScintillaNET)
