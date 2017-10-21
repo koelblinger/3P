@@ -1,6 +1,6 @@
 # About this project #
 
-*<small>Last update of this page : 27/03/2017</small>*
+*<small>Last update of this page : 21/10/2017</small>*
 
 The **OpenEdge** **A**dvanced **B**usiness **L**anguage, or [OpenEdge ABL](https://www.progress.com/openedge) (formerly known as **Progress 4GL**) is a fourth-generation programming language which uses an English-like syntax. Applications developed with this language are portable across computing systems, it uses its own integrated relational database and programming tool which is called the "appbuilder".
 
@@ -18,6 +18,22 @@ Progress Programmers Pal (3P), is a **[notepad++](https://notepad-plus-plus.org/
 
 If you are not fond of the appbuilder and looking for a fast and efficient **ABL editor**, look no further!
 
+
+# Newest features (beta version) #
+
+## An alternative to notepad++ autocompletion ##
+
+In addition to the features targeting the openedge users, 3P now also include a tool for a wider public : It can completely replace the default autocompletion of notepad++ (more precisely scintilla) by the one used in 3P!
+
+![image](content_images/gif/npp-autocompletion-ex2.gif)
+
+*[Learn more about this feature here](#/alternative-autocompletion)*
+
+## Prolint made easy ##
+
+Prolint is a tool for automated source code review of Progress 4GL code. It reads one or more sourcefiles and examines it for bad programming practices or violations against coding standards.
+
+3P will now automatically download and install an instance of prolint for you : just press F12 and get your file prolint'ed; it is that simple!
 
 # Key features  #
 
@@ -115,6 +131,13 @@ Do you need to send your r-code to a distant ftp server after compiling them? Do
 3P has an embedded syntax highlighter, several themes are available and switchable at will :
 
 ![image](content_images/home/syntax_themes.png)
+
+
+## Data digger ##
+
+3P offers to set up data digger for you just by clicking on a buton; you will then be able to browse through your database data easily and efficiently!
+
+[More info on datadigger here](https://datadigger.wordpress.com/)
 
 
 ## And more!? ##
