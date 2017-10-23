@@ -89,7 +89,7 @@
                         mdcontent += rawmd;
                         $('#page-content').empty();
                         $('#loader').empty();
-                        $('#page-content').append(marked(rawmd));
+                        $('#page-content').append(marked(mdcontent));
                         $('#page-content').fadeIn(300);
                     } else {
                         // find the 1st comment of the commit corresponding to the release tag
