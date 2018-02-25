@@ -87,38 +87,41 @@
                 jQuery.get("md-versions/" + version + ".md", function(rawmd) {
                     if (rawmd != null && rawmd.length > 0) {
                         mdcontent += rawmd;
-                        $('#page-content').empty();
-                        $('#loader').empty();
-                        $('#page-content').append(marked(mdcontent));
-                        $('#page-content').fadeIn(300);
                     } else {
-						// find the release body
-						$.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
-							if (release.hasOwnProperty('url')) {								
-								mdcontent += "## " + release.name + " ##\n\n";
-								mdcontent += release.body;
+						mdcontent += "Woops, empty md file :/";
+                    }
+					$('#page-content').empty();
+					$('#loader').empty();
+					$('#page-content').append(marked(mdcontent));
+					$('#page-content').fadeIn(300);
+                })
+				.error(function() {
+					// find the release body
+					$.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
+						if (release.hasOwnProperty('url')) {								
+							mdcontent += "## " + release.name + " ##\n\n";
+							mdcontent += release.body;
+							$('#page-content').empty();
+							$('#loader').empty();
+							$('#page-content').append(marked(mdcontent));
+							$('#page-content').fadeIn(300);
+						}
+						else {
+							// find the 1st comment of the commit corresponding to the release tag
+							$.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
+								if (comments.length > 0 && comments[0].hasOwnProperty('body')) {
+									mdcontent += comments[0].body;
+								} else {
+									mdcontent += "Whoops, nothing was found :/";
+								}            
 								$('#page-content').empty();
 								$('#loader').empty();
 								$('#page-content').append(marked(mdcontent));
-								$('#page-content').fadeIn(300);
-							}
-							else {
-								// find the 1st comment of the commit corresponding to the release tag
-								$.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
-									if (comments.length > 0 && comments[0].hasOwnProperty('body')) {
-										mdcontent += comments[0].body;
-									} else {
-										mdcontent += "Whoops, nothing was found :/";
-									}            
-									$('#page-content').empty();
-									$('#loader').empty();
-									$('#page-content').append(marked(mdcontent));
-									$('#page-content').fadeIn(300);									
-								});
-							}
-						});
-                    }
-                });
+								$('#page-content').fadeIn(300);									
+							});
+						}
+					});
+				});
             });
         }
 
