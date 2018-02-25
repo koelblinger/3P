@@ -1,6 +1,6 @@
 # Installation #
 
-*<small>Last update of this page : 20/08/2016</small>*
+*<small>Last update of this page : 25/02/2018</small>*
 
 ## Install Notepad++ ##
 
@@ -19,6 +19,8 @@ Automatically install 3P through the plugin manager of notepad++ :
 * Choose `YES` when asked to restart notepad++ and allow the program `updated/gpup.exe` to be executed if windows warns you
 
 ![image](content_images/installation/warning.png)
+
+*The plugin manager is no longer install with notepad++ but you can download and install the latest version [here](https://github.com/bruderstein/nppPluginManager/releases)*
 
 ## Manual installation of 3P ##
 
