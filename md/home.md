@@ -1,6 +1,4 @@
-<font color='#CD7918'>
-# IMPORTANT MESSAGE TO ALL USERS #
-</font>
+# <font color='#CD7918'>IMPORTANT MESSAGE TO ALL USERS</font> #
 
 **The 3P auto-updater is UNAVAILABLE for all the versions prior to v1.8.1!!!**
 
