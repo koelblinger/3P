@@ -20,7 +20,7 @@ Automatically install 3P through the plugin manager of notepad++ :
 
 ![image](content_images/installation/warning.png)
 
-*The plugin manager is no longer install with notepad++ but you can download and install the latest version [here](https://github.com/bruderstein/nppPluginManager/releases)*
+*The plugin manager is no longer installed with notepad++ but you can download and install the latest version [here](https://github.com/bruderstein/nppPluginManager/releases)*
 
 ## Manual installation of 3P ##
 
