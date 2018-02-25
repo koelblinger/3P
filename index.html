@@ -58,7 +58,7 @@
                         }
                     }
 
-                    htmlContent += "\n\n*Since the updater of 3P is using the github API, i have to keep the list of releases clean on github otherwise the json to query the latest releases is huge. So this is actually a list of the tags and the old release comments are kept as comments of the commits related to those tags.*";
+                    htmlContent += "\n\n*Old releases information were erased by mistake from github so I reuploaded them here*";
 
                     $('#page-content').empty();
                     $('#loader').empty();
@@ -92,26 +92,31 @@
                         $('#page-content').append(marked(mdcontent));
                         $('#page-content').fadeIn(300);
                     } else {
-                        // find the 1st comment of the commit corresponding to the release tag
-                        $.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
-                            if (comments.length > 0) {
-                                mdcontent += comments[0].body;
-                                $('#page-content').empty();
-                                $('#loader').empty();
-                                $('#page-content').append(marked(mdcontent));
-                                $('#page-content').fadeIn(300);
-                            } else {
-                                // find the release body
-                                $.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
-                                    mdcontent += "## " + release.name + " ##\n\n";
-                                    mdcontent += release.body;
-                                    $('#page-content').empty();
-                                    $('#loader').empty();
-                                    $('#page-content').append(marked(mdcontent));
-                                    $('#page-content').fadeIn(300);
-                                });
-                            }                
-                        });
+						// find the release body
+						$.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
+							if (release.hasOwnProperty('url')) {								
+								mdcontent += "## " + release.name + " ##\n\n";
+								mdcontent += release.body;
+								$('#page-content').empty();
+								$('#loader').empty();
+								$('#page-content').append(marked(mdcontent));
+								$('#page-content').fadeIn(300);
+							}
+							else {
+								// find the 1st comment of the commit corresponding to the release tag
+								$.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
+									if (comments.length > 0 && comments[0].hasOwnProperty('body')) {
+										mdcontent += comments[0].body;
+									} else {
+										mdcontent += "Whoops, nothing was found :/";
+									}            
+									$('#page-content').empty();
+									$('#loader').empty();
+									$('#page-content').append(marked(mdcontent));
+									$('#page-content').fadeIn(300);									
+								});
+							}
+						});
                     }
                 });
             });
