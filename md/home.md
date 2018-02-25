@@ -1,8 +1,14 @@
+<font color='#CD7918'>
 # IMPORTANT MESSAGE TO ALL USERS #
+</font>
 
 **The 3P auto-updater is UNAVAILABLE for all the versions prior to v1.8.1!!!**
+
 **You MUST install the latest .NET framework** (or at least [.NET 4.6](https://www.microsoft.com/en-US/download/details.aspx?id=48130) in order to be able to use the next releases of 3P (v1.8.1 and above)!!!
+
 Read this issue to understand why : [https://github.com/jcaillon/3P/issues/214](https://github.com/jcaillon/3P/issues/214)
+
+<hr>
 
 # About this project #
 
