@@ -1,6 +1,12 @@
+# IMPORTANT MESSAGE TO ALL USERS #
+
+**The 3P auto-updater is UNAVAILABLE for all the versions prior to v1.8.1!!!**
+**You MUST install the latest .NET framework** (or at least [.NET 4.6](https://www.microsoft.com/en-US/download/details.aspx?id=48130) in order to be able to use the next releases of 3P (v1.8.1 and above)!!!
+Read this issue to understand why : [https://github.com/jcaillon/3P/issues/214](https://github.com/jcaillon/3P/issues/214)
+
 # About this project #
 
-*<small>Last update of this page : 21/10/2017</small>*
+*<small>Last update of this page : 25/02/2018</small>*
 
 The **OpenEdge** **A**dvanced **B**usiness **L**anguage, or [OpenEdge ABL](https://www.progress.com/openedge) (formerly known as **Progress 4GL**) is a fourth-generation programming language which uses an English-like syntax. Applications developed with this language are portable across computing systems, it uses its own integrated relational database and programming tool which is called the "appbuilder".
 
