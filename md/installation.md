@@ -9,6 +9,8 @@
 
 ## Automatic installation of 3P ##
 
+*The plugin manager is no longer installed with notepad++ but you can download and install the latest version [here](https://github.com/bruderstein/nppPluginManager/releases)*.
+
 Automatically install 3P through the plugin manager of notepad++ :
 
 * `PLUGINS > PLUGIN MANAGER > SHOW PLUGIN MANAGER`
@@ -20,12 +22,11 @@ Automatically install 3P through the plugin manager of notepad++ :
 
 ![image](content_images/installation/warning.png)
 
-*The plugin manager is no longer installed with notepad++ but you can download and install the latest version [here](https://github.com/bruderstein/nppPluginManager/releases)*
-
 ## Manual installation of 3P ##
 
 * Stop notepad++
 * Download the [latest version](https://github.com/jcaillon/3P/releases/latest) of 3P (direct download button available on the menu on your right)
 * Go to your notepad++ installation folder (usually %programfiles%\Notepad++), you should see a `/plugins/` folder
 * Unzip the content of the downloaded package into the aforementioned folder (`/plugins/3P.dll` should now exist)
-* restart notepad++
+* Optionally, you can execute `NetFrameworkChecker.exe` to check if you have the required .net version to run 3P
+* start notepad++

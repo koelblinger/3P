@@ -504,6 +504,16 @@ header h2 {
   margin: 0 auto;
 }
 
+div.important-message {
+  text-align: center;
+  background-color: #0953C1;
+  color: #FFFFFF;
+}
+
+div.important-message a {
+  color: #FFFFFF;
+}
+
 #content-wrapper {
   padding-top: 10px;
 }
