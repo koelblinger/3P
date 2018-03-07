@@ -58,7 +58,7 @@
                         }
                     }
 
-                    htmlContent += "\n\n*Since the updater of 3P is using the github API, i have to keep the list of releases clean on github otherwise the json to query the latest releases is huge. So this is actually a list of the tags and the old release comments are kept as comments of the commits related to those tags.*";
+                    htmlContent += "\n\n*Old releases information were erased by mistake from github so I reuploaded them here*";
 
                     $('#page-content').empty();
                     $('#loader').empty();
@@ -87,33 +87,41 @@
                 jQuery.get("md-versions/" + version + ".md", function(rawmd) {
                     if (rawmd != null && rawmd.length > 0) {
                         mdcontent += rawmd;
-                        $('#page-content').empty();
-                        $('#loader').empty();
-                        $('#page-content').append(marked(mdcontent));
-                        $('#page-content').fadeIn(300);
                     } else {
-                        // find the 1st comment of the commit corresponding to the release tag
-                        $.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
-                            if (comments.length > 0) {
-                                mdcontent += comments[0].body;
-                                $('#page-content').empty();
-                                $('#loader').empty();
-                                $('#page-content').append(marked(mdcontent));
-                                $('#page-content').fadeIn(300);
-                            } else {
-                                // find the release body
-                                $.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
-                                    mdcontent += "## " + release.name + " ##\n\n";
-                                    mdcontent += release.body;
-                                    $('#page-content').empty();
-                                    $('#loader').empty();
-                                    $('#page-content').append(marked(mdcontent));
-                                    $('#page-content').fadeIn(300);
-                                });
-                            }                
-                        });
+						mdcontent += "Woops, empty md file :/";
                     }
-                });
+					$('#page-content').empty();
+					$('#loader').empty();
+					$('#page-content').append(marked(mdcontent));
+					$('#page-content').fadeIn(300);
+                })
+				.error(function() {
+					// find the release body
+					$.getJSON("https://api.github.com/repos/jcaillon/3P/releases/tags/" + version).done(function (release) {
+						if (release.hasOwnProperty('url')) {								
+							mdcontent += "## " + release.name + " ##\n\n";
+							mdcontent += release.body;
+							$('#page-content').empty();
+							$('#loader').empty();
+							$('#page-content').append(marked(mdcontent));
+							$('#page-content').fadeIn(300);
+						}
+						else {
+							// find the 1st comment of the commit corresponding to the release tag
+							$.getJSON("https://api.github.com/repos/jcaillon/3P/commits/" + sha + "/comments").done(function (comments) {
+								if (comments.length > 0 && comments[0].hasOwnProperty('body')) {
+									mdcontent += comments[0].body;
+								} else {
+									mdcontent += "Whoops, nothing was found :/";
+								}            
+								$('#page-content').empty();
+								$('#loader').empty();
+								$('#page-content').append(marked(mdcontent));
+								$('#page-content').fadeIn(300);									
+							});
+						}
+					});
+				});
             });
         }
 
@@ -256,6 +264,11 @@
 
 </header>
 
+<div class="important-message">
+    <b>IMPORTANT</b> : 
+    <a target="_blank" href="https://github.com/jcaillon/3P/issues/217">Error 3P.dll is not valid notepad++ plugin / critical error at startup / about .net 4.6.2 requirement</a>
+</div>
+
 <div id="content-wrapper">
     <div class="inner clearfix">
     
@@ -289,43 +302,44 @@
             <div class="sidetitle img-download">Download</div>
 
             <div class="stabledownload">
-                <a id="stable_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">Stable</span><span id="stable_text" class="shield2">Requesting...</span></a>
+                <a target="_blank" id="stable_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">Stable</span><span id="stable_text" class="shield2">Requesting...</span></a>
                 <br>
-                <a id="stable64_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">Stable (64 bits)</span><span id="stable64_text" class="shield2">none</span></a>
+                <a target="_blank" id="stable64_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">Stable (64 bits)</span><span id="stable64_text" class="shield2">none</span></a>
             </div>
             <div class="paddingleft">
-                <a href="https://github.com/jcaillon/3P/releases"><small>Read version notes here!</small></a>
+                <a target="_blank" href="https://github.com/jcaillon/3P/releases"><small>Read version notes here!</small></a>
                 <br><br>
             </div>
             <div class="betadownload">
-                <a id="beta_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">BETA</span><span id="beta_text" class="shield2">Requesting...</span></a>
+                <a target="_blank" id="beta_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">BETA</span><span id="beta_text" class="shield2">Requesting...</span></a>
                 <br>
-                <a id="beta64_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">BETA (64 bits)</span><span id="beta64_text" class="shield2">Requesting...</span></a>
+                <a target="_blank" id="beta64_link" href="https://github.com/jcaillon/3P/releases/latest"><span class="shield1">BETA (64 bits)</span><span id="beta64_text" class="shield2">Requesting...</span></a>
             </div>
-                        
+            
+            
             <div class="sidetitle img-info">Info</div>
             
             <div id="sideinfo" class="paddingleft">
-                <a href="https://notepad-plus-plus.org/download/" target="_blank"><span class="shield1">Requires Notepad++</span><span class="shield2">7.5.1++</span></a>
+                <a target="_blank" href="https://notepad-plus-plus.org/download/"><span class="shield1">Requires Notepad++</span><span class="shield2">7.5.4++</span></a>
                 <br>
-                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=17851" target="_blank"><span class="shield1">Requires .NET</span><span class="shield2">4.0+</span></a>
+                <a target="_blank" href="https://www.microsoft.com/en-us/download/details.aspx?id=53344"><span class="shield1">Requires .NET</span><span class="shield2">4.6.2+</span></a>
                 <br>
-                <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank"><span class="shield1">License</span><span class="shield2">GPLv3</span></a>
+                <a target="_blank" href="http://www.gnu.org/licenses/gpl.txt"><span class="shield1">License</span><span class="shield2">GPLv3</span></a>
                 <br>
-                <a href="https://gitter.im/_3P/discuss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank"><span class="shield1">Gitter</span><span class="shield2">Join the chat</span></a>
+                <a target="_blank" href="https://gitter.im/_3P/discuss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><span class="shield1">Gitter</span><span class="shield2">Join the chat</span></a>
                 <br>
                 <span class="shield1">Total downloads</span><span class="shield2" id="totaldl_text">Requesting...</span>
                 <br>
-                <a href="https://www.jetbrains.com/" target="_blank"><span class="shield1">Developed using</span><span class="shield2">resharper</span></a>
+                <a target="_blank" href="https://www.jetbrains.com/" target="_blank"><span class="shield1">Developed using</span><span class="shield2">resharper</span></a>
                 <br>
-                <a href="https://github.com/jcaillon" target="_blank"><span class="shield1">Author</span><span class="shield2">Julien Caillon</span></a>
+                <a target="_blank" href="https://github.com/jcaillon"><span class="shield1">Author</span><span class="shield2">Julien Caillon</span></a>
             </div>
-            
+
             <div class="sidetitle img-love">Supported by</div>
             
             <div id="sidelove" class="paddingleft sidealternativebg">
 
-                <a href="https://www.jetbrains.com/" target="_blank"><img src="images/jetbrains.png" /></a>
+                <a target="_blank" href="https://www.jetbrains.com/"><img src="images/jetbrains.png" /></a>
             </div>
         </aside>
         
